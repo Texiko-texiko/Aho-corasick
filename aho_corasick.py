@@ -1,11 +1,11 @@
 from collections import deque
 
 class ACAutomaton:
-    start = ord('ぁ')
+    start = ord('ァ')
     class AutomatonNode:
         def __init__(self, words=[]):
             self.words = words.copy()
-            self.next = [None] * (84)
+            self.next = [None] * 90
             self.fail = None
 
         def add_word(self, word):
@@ -53,11 +53,11 @@ class ACAutomaton:
 
 if __name__ == '__main__':
     A = ACAutomaton()
-    A.add("とり", "鳥")
-    A.add("とくがわ", "徳川")
-    A.add("あさ", "朝")
-    A.add("あさ", "麻")
-    A.add("とりい", "鳥居")
-    A.add("いか", "いか")
+    A.add("トリ", "鳥")
+    A.add("トクガワ", "徳川")
+    A.add("アサ", "朝")
+    A.add("アサ", "麻")
+    A.add("トリイ", "鳥居")
+    A.add("イカ", "いか")
     A.print_tree()
     A.set_failure_path()
