@@ -1,6 +1,6 @@
 from collections import deque
 
-class    ACAutomaton:
+class ACAutomaton:
     start = ord('ぁ')
     class AutomatonNode:
         def __init__(self, words=[]):
