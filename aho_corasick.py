@@ -2,10 +2,13 @@ from collections import deque
 
 class ACAutomaton:
     start = ord('ァ')
+    end = ord('ヿ')
+    size = end - start + 1  # カタカナの範囲をカバーするのに必要なサイズ
+    
     class AutomatonNode:
         def __init__(self, words=[]):
             self.words = words.copy()
-            self.next = [None] * 90
+            self.next = [None] * (ACAutomaton.size)
             self.fail = None
 
         def add_word(self, word):
@@ -15,13 +18,24 @@ class ACAutomaton:
         self.root = self.AutomatonNode()
 
     def add(self, kana, word):
-        chars = list(kana)
+        if not kana:  # 空のカナリストをチェック
+            return
+            
         node = self.root
-        for c in chars:
-            n = ord(c) - self.start
-            if node.next[n] is None:
-                node.next[n] = self.AutomatonNode(node.words)
-            node = node.next[n]
+        for c in kana:
+            try:
+                n = ord(c) - self.start
+                if n < 0 or n >= len(node.next):
+                    # 範囲外の文字はスキップ
+                    continue
+                    
+                if node.next[n] is None:
+                    node.next[n] = self.AutomatonNode(node.words)
+                node = node.next[n]
+            except (TypeError, IndexError):
+                # 問題のある文字をスキップし続行
+                continue
+                
         node.add_word(word)
 
     def set_failure_path(self):
